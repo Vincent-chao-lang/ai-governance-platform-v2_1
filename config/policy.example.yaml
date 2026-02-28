@@ -1,0 +1,54 @@
+version: "2026-02-28"
+default:
+  detectors:
+    pii: true
+    secrets: true
+    prompt_injection: true
+
+  route:
+    models_allowlist: ["mock-model"]
+    providers:
+      - name: "primary-mock"
+        kind: "mock"
+      # Example real provider (OpenAI-compatible):
+      # - name: "internal-llm"
+      #   kind: "openai_compat"
+      #   base_url_env: "OPENAI_COMPAT_BASE_URL"
+      #   api_key_env: "OPENAI_COMPAT_API_KEY"
+      #   timeout_s: 30
+      # - name: "fallback-mock"
+      #   kind: "mock"
+
+  tools:
+    enabled: false
+    allowlist:
+      - jira.get_issue
+      - jira.search_issues
+      - jira.create_issue
+      - jira.comment_issue
+      - servicenow.get_incident
+      - servicenow.search_incidents
+      - servicenow.create_incident
+      - servicenow.update_incident
+    write_tools:
+      - jira.create_issue
+      - jira.comment_issue
+      - servicenow.create_incident
+      - servicenow.update_incident
+    approval:
+      required_for_write: true
+      bypass_tools: []
+
+
+  rate_limit:
+    rpm: 60
+
+departments:
+  finance:
+    route:
+      models_allowlist: ["mock-model"]
+      providers:
+        - name: "finance-mock"
+          kind: "mock"
+    rate_limit:
+      rpm: 30
