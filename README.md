@@ -450,7 +450,7 @@ docker compose up -d
 
 ## 许可证
 
-[在此添加您的许可证信息]
+[MIT]
 
 ## 支持
 
